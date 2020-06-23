@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 // import { Discovery } from "aws-sdk";
-
 import Welcome from "./welcome";
 
 let elem;

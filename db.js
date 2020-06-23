@@ -15,3 +15,20 @@ module.exports.addUsersInput = (first, last, email, hash) => {
         [first, last, email, hash]
     );
 };
+
+module.exports.getUsersPw = (email) => {
+    return db.query(`SELECT id, password FROM users WHERE email=$1`, [email]);
+};
+
+module.exports.getUsersEmail = (email) => {
+    return db.query(`SELECT first, last, email FROM users WHERE email=$1`, [
+        email,
+    ]);
+};
+
+module.exports.addSecretCode = (email, code) => {
+    return db.query(
+        `INSERT INTO reset_codes (email, code) VALUES ($1, $2) RETURNING *`,
+        [email, code]
+    );
+};

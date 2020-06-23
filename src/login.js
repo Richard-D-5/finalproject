@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 
-class Registration extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -19,43 +19,32 @@ class Registration extends Component {
         );
     }
 
-    submit(e) {
+    submit() {
         console.log("about to submit!!!");
         // e.preventDefault();
         axios
-            .post("/register", this.state)
+            .post("/login", this.state)
             .then(({ data }) => {
                 console.log("data from server: ", data);
                 if (data.success) {
                     location.replace("/");
                 } else {
                     this.setState({
+                        first: "",
                         error: true,
                     });
                 }
             })
-            .catch((err) => console.log("err in post register: ", err));
+            .catch((err) => console.log("err in post login: ", err));
     }
 
     render() {
         return (
             <>
-                <h1>I am Registration </h1>
-                {this.state.error && <div>Opps, something went wrong...</div>}
-                <input
-                    className="inputField"
-                    name="first"
-                    placeholder="first"
-                    onChange={(e) => this.handleChange(e)}
-                    required
-                />
-                <input
-                    className="inputField"
-                    name="last"
-                    placeholder="last"
-                    onChange={(e) => this.handleChange(e)}
-                    required
-                />
+                <h1>I am the login</h1>
+                {this.state.error && (
+                    <div>Opps..., something went wrong. Please try again.</div>
+                )}
                 <input
                     className="inputField"
                     name="email"
@@ -72,12 +61,12 @@ class Registration extends Component {
                     onChange={(e) => this.handleChange(e)}
                     required
                 />
-                <button onClick={() => this.submit()}>Register</button>
+                <button onClick={() => this.submit()}>Log in</button>
 
-                <Link to="/login">Login</Link>
+                <Link to="/reset-password">Forget your password?</Link>
             </>
         );
     }
 }
 
-export default Registration;
+export default Login;
