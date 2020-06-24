@@ -30,7 +30,6 @@ class Login extends Component {
                     location.replace("/");
                 } else {
                     this.setState({
-                        first: "",
                         error: true,
                     });
                 }

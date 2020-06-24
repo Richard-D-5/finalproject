@@ -6,7 +6,7 @@ const { hash, compare } = require("./bc");
 const compression = require("compression");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
-const sendEmail = require("./ses");
+const { sendEmail } = require("./ses");
 
 app.use(compression());
 
@@ -67,6 +67,11 @@ app.post("/login", (req, res) => {
     return db.getUsersPw(req.body.email).then((results) => {
         compare(req.body.password, results.rows[0].password)
             .then((match) => {
+                console.log("req.body.password in login: ", req.body.password);
+                console.log(
+                    "rresults.rows[0].password in login: ",
+                    results.rows[0].password
+                );
                 console.log("match: ", match);
                 if (match == true) {
                     req.session.userId = results.rows[0].id;
@@ -83,30 +88,54 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/reset", (req, res) => {
-    console.log("req.body in /reset: ", req.body.email);
+    console.log("req.body in /reset: ", req.body);
     return db
         .getUsersEmail(req.body.email)
         .then((results) => {
-            console.log("results in /reset: ", results);
+            // console.log("results in /reset: ", results);
             if (results.rows[0].email) {
                 const secretCode = cryptoRandomString({
                     length: 6,
                 });
                 console.log("sectretCode: ", secretCode);
-                return db.addSecretCode(results.rows[0].email, secretCode);
-                // res.json({ success: true });
+                db.addSecretCode(results.rows[0].email, secretCode);
+
+                const recipient = req.body.email;
+                const message = `Hello, here is your code to update your ${secretCode} password`;
+                const subject = `Reset Password`;
+                sendEmail(recipient, message, subject);
             }
         })
-        .then((results) => {
-            console.log("results sendEmail: ", results);
-            const recipient = req.body.email;
-            const message = `Hello, here is your code to update your ${results.secretCode} password`;
-            const subject = `Reset Password`;
-            sendEmail(recipient, message, subject);
+        .then(() => {
+            res.json({ success: true });
         })
         .catch((err) => {
             console.log("err in post reset", err);
             res.json({ success: false });
+        });
+});
+
+app.post("/reset/verify", (req, res) => {
+    console.log("req.body in post /reset/verify: ", req.body);
+    db.getSecretCode(req.body.email)
+        .then((data) => {
+            console.log("data in getSecretCode: ", data);
+            if (req.body.code === data.rows[0].code) {
+                hash(req.body.password).then((hashedPw) => {
+                    db.updatePassword(req.body.email, hashedPw)
+                        .then(() => {
+                            console.log("hashedPw: ", hashedPw);
+                            console.log("password updated");
+                            res.json({ success: true });
+                        })
+                        .catch((err) => {
+                            console.log("err in post updatePassword: ", err);
+                        });
+                });
+            }
+        })
+        .catch((err) => {
+            console.log("err in getSecretCode: ", err);
         });
 });
 

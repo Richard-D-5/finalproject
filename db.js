@@ -32,3 +32,24 @@ module.exports.addSecretCode = (email, code) => {
         [email, code]
     );
 };
+
+module.exports.getSecretCode = (email) => {
+    return db.query(
+        `SELECT code 
+        FROM reset_codes  
+        WHERE email=$1 
+        AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'
+        ORDER BY created_at DESC
+        LIMIT 3 `,
+        [email]
+    );
+};
+
+module.exports.updatePassword = (email, hashedPw) => {
+    return db.query(
+        `UPDATE users 
+        SET password = $2
+        WHERE email = $1`,
+        [email, hashedPw]
+    );
+};
