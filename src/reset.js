@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
+// import { render } from "react-dom";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 
@@ -38,7 +38,6 @@ class ResetPassword extends Component {
                     this.setState({
                         step: 2,
                     });
-                    // location.replace("/");
                 } else {
                     this.setState({
                         error: true,
@@ -71,7 +70,6 @@ class ResetPassword extends Component {
     }
 
     getCurrentDisplay() {
-        // const step = this.state.step;
         const step = this.state.step;
         if (step == 1) {
             return (

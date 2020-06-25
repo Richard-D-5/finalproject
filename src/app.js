@@ -1,19 +1,22 @@
 import React, { Component } from "react";
-import Presentational from "./presentational";
+import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
+import Profile from "./profile";
+import BioEditor from "./bioediter";
+import axios from "./axios";
 
 export default class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            first: "Richard",
-            last: "Dau",
             uploaderIsVisible: false,
         };
     }
 
-    componentDidMount() {
-        console.log("App mounted");
+    async componentDidMount() {
+        const { data } = await axios.get("/user");
+        console.log("data in app.js: ", data);
+        this.setState(data);
     }
 
     toggleModal() {
@@ -30,17 +33,34 @@ export default class App extends Component {
     render() {
         return (
             <div>
+                <header>
+                    <nav className="nav-pic">
+                        <ProfilePic
+                            imageUrl={this.state.url}
+                            toggleModal={() => this.toggleModal()}
+                        />
+                    </nav>
+                </header>
                 <h1>Hello from App.</h1>
 
-                <Presentational
+                <Profile
                     first={this.state.first}
                     last={this.state.last}
-                    imageUrl={this.state.imageUrl}
+                    toggleModal={() => this.toggleModal()}
+                    imageUrl={this.state.url}
+                    // // profilePic={
+                    // //     <ProfilePic
+                    // //         id={this.state.id}
+                    // //         first={this.state.first}
+                    // //         last={this.state.last}
+                    // //         imageUrl={this.state.url}
+                    // //         toggleModal={() => this.toggleModal()}
+                    // //     />
+                    // }
+                    bioEditor={
+                        <BioEditor bio={this.state.bio} setBio={this.setBio} />
+                    }
                 />
-
-                <h2 onClick={() => this.toggleModal()}>
-                    Changing state with a method (toggleModal)
-                </h2>
 
                 {this.state.uploaderIsVisible && (
                     <Uploader methodInApp={this.methodInApp} />

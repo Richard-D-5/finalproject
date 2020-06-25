@@ -16,6 +16,10 @@ module.exports.addUsersInput = (first, last, email, hash) => {
     );
 };
 
+module.exports.getUsersInfo = (id) => {
+    return db.query(`SELECT * FROM users WHERE id = $1`, [id]);
+};
+
 module.exports.getUsersPw = (email) => {
     return db.query(`SELECT id, password FROM users WHERE email=$1`, [email]);
 };
@@ -51,5 +55,15 @@ module.exports.updatePassword = (email, hashedPw) => {
         SET password = $2
         WHERE email = $1`,
         [email, hashedPw]
+    );
+};
+
+exports.addImage = (id, url) => {
+    return db.query(
+        `UPDATE users
+        SET url = $2
+        WHERE id = $1 
+        RETURNING *`,
+        [id, url]
     );
 };
