@@ -178,6 +178,24 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
+app.post("/save", (req, res) => {
+    console.log("req.body in post /save: ", req.body);
+    if (req.session.userId) {
+        db.saveBio(req.session.userId, req.body.currentBio)
+            .then((data) => {
+                console.log("update bio!!");
+                console.log("data in post /save: ", data);
+                res.json(data.rows[0].bio);
+                // res.json({ succes: true });
+            })
+            .catch((err) => {
+                console.log("err in post /save: ", err);
+            });
+    } else {
+        res.json({ success: false });
+    }
+});
+
 app.get("/user", (req, res) => {
     if (req.session.userId) {
         db.getUsersInfo(req.session.userId)

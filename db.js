@@ -58,12 +58,22 @@ module.exports.updatePassword = (email, hashedPw) => {
     );
 };
 
-exports.addImage = (id, url) => {
+module.exports.addImage = (id, url) => {
     return db.query(
         `UPDATE users
         SET url = $2
         WHERE id = $1 
         RETURNING *`,
         [id, url]
+    );
+};
+
+module.exports.saveBio = (id, bio) => {
+    return db.query(
+        `UPDATE users
+        SET bio = $2
+        WHERE id = $1
+        RETURNING bio`,
+        [id, bio]
     );
 };

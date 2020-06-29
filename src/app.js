@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
-import BioEditor from "./bioediter";
+// import BioEditor from "./bioediter";
 import axios from "./axios";
 
 export default class App extends Component {
@@ -34,6 +34,9 @@ export default class App extends Component {
         return (
             <div>
                 <header>
+                    <nav className="logo">
+                        <img src="./public/logo.png" />
+                    </nav>
                     <nav className="nav-pic">
                         <ProfilePic
                             imageUrl={this.state.url}
@@ -41,25 +44,14 @@ export default class App extends Component {
                         />
                     </nav>
                 </header>
-                <h1>Hello from App.</h1>
 
                 <Profile
                     first={this.state.first}
                     last={this.state.last}
                     toggleModal={() => this.toggleModal()}
                     imageUrl={this.state.url}
-                    // // profilePic={
-                    // //     <ProfilePic
-                    // //         id={this.state.id}
-                    // //         first={this.state.first}
-                    // //         last={this.state.last}
-                    // //         imageUrl={this.state.url}
-                    // //         toggleModal={() => this.toggleModal()}
-                    // //     />
-                    // }
-                    bioEditor={
-                        <BioEditor bio={this.state.bio} setBio={this.setBio} />
-                    }
+                    bio={this.state.bio}
+                    setBio={this.state.setBio}
                 />
 
                 {this.state.uploaderIsVisible && (

@@ -1,12 +1,19 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    background-color: darkolivegreen;
+    background-color: white;
 }
 
 header {
     height: 70px;
     border-bottom: 1px black solid;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    top: 10px;
 }
 
 .nav-pic {
@@ -15,13 +22,34 @@ header {
     top: 10px;
 }
 
+.nav-pic img {
+    width: 50px;
+    height: 50px;
+}
+
+.profile-pic img {
+    width: 200px;
+    height: 200px;
+}
+
 input {
     background-color: white;
 }
 
-.profile-pic {
-    width: 50px;
-    height: 50px;
+.profile-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.bio-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+}
+
+.textarea {
+    border: 1px black solid;
+    border-radius: 10px;
 }
 
 /* .upload-container {
