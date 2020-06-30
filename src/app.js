@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
+import OtherProfile from "./otherprofile";
 // import BioEditor from "./bioediter";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 import axios from "./axios";
 
 export default class App extends Component {
@@ -25,39 +27,59 @@ export default class App extends Component {
         });
     }
 
-    methodInApp(arg) {
-        console.log("I am running in App!!!");
-        console.log("argument I passed to methodInApp: ", arg);
+    setBio(bio) {
+        this.setState({
+            bio: bio,
+        });
     }
 
     render() {
         return (
-            <div>
-                <header>
-                    <nav className="logo">
-                        <img src="./public/logo.png" />
-                    </nav>
-                    <nav className="nav-pic">
-                        <ProfilePic
-                            imageUrl={this.state.url}
-                            toggleModal={() => this.toggleModal()}
-                        />
-                    </nav>
-                </header>
+            <BrowserRouter>
+                <div>
+                    <header>
+                        <nav className="logo">
+                            <img src="./public/logo.png" />
+                        </nav>
+                        <Link to="/">
+                            <nav className="nav-pic">
+                                <ProfilePic
+                                    imageUrl={this.state.url}
+                                    toggleModal={() => this.toggleModal()}
+                                />
+                            </nav>
+                        </Link>
+                    </header>
 
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    toggleModal={() => this.toggleModal()}
-                    imageUrl={this.state.url}
-                    bio={this.state.bio}
-                    setBio={this.state.setBio}
-                />
-
-                {this.state.uploaderIsVisible && (
-                    <Uploader methodInApp={this.methodInApp} />
-                )}
-            </div>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Profile
+                                first={this.state.first}
+                                last={this.state.last}
+                                toggleModal={() => this.toggleModal()}
+                                imageUrl={this.state.url}
+                                bio={this.state.bio}
+                                setBio={(bio) => this.setBio(bio)}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                    {this.state.uploaderIsVisible && (
+                        <Uploader methodInApp={this.methodInApp} />
+                    )}
+                </div>
+            </BrowserRouter>
         );
     }
 }

@@ -30,6 +30,15 @@ module.exports.getUsersEmail = (email) => {
     ]);
 };
 
+exports.getUserById = (id) => {
+    return db.query(
+        `SELECT id, first, last, url, bio
+        FROM users 
+        WHERE id = $1`,
+        [id]
+    );
+};
+
 module.exports.addSecretCode = (email, code) => {
     return db.query(
         `INSERT INTO reset_codes (email, code) VALUES ($1, $2) RETURNING *`,

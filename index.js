@@ -211,6 +211,20 @@ app.get("/user", (req, res) => {
     }
 });
 
+app.get("/user/:id.json", async (req, res) => {
+    if (req.session.userId == req.params.id) {
+        res.json({ self: true });
+    } else {
+        try {
+            const data = await db.getUserById(req.params.id);
+            res.json(data.rows[0]);
+        } catch (err) {
+            console.log(err);
+            res.json({ error: "User does not exits." });
+        }
+    }
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");
