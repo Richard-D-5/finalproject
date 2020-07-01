@@ -27,6 +27,12 @@ header {
     height: 50px;
 }
 
+.find-people {
+    position: absolute;
+    right: 90px;
+    top: 30px;
+}
+
 .profile-pic img {
     width: 200px;
     height: 200px;
@@ -39,6 +45,16 @@ input {
 .profile-container {
     display: flex;
     flex-direction: row;
+}
+
+.find-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.find-container img {
+    width: 100px;
+    height: 100px;
 }
 
 .bio-container {

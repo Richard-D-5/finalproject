@@ -30,7 +30,7 @@ module.exports.getUsersEmail = (email) => {
     ]);
 };
 
-exports.getUserById = (id) => {
+module.exports.getUserById = (id) => {
     return db.query(
         `SELECT id, first, last, url, bio
         FROM users 
@@ -85,4 +85,15 @@ module.exports.saveBio = (id, bio) => {
         RETURNING bio`,
         [id, bio]
     );
+};
+
+module.exports.getMatchingUsers = (val) => {
+    return db.query(
+        `SELECT first, last, url, bio FROM users WHERE first ILIKE $1;`,
+        [val + "%"]
+    );
+};
+
+module.exports.getRecentUsers = () => {
+    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3`);
 };

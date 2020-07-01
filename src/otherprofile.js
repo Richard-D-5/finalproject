@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import FriendButton from "./friendbutton";
 import axios from "./axios";
 
 export default class OtherProfile extends Component {
@@ -10,6 +11,7 @@ export default class OtherProfile extends Component {
     async componentDidMount() {
         const id = this.props.match.params.id;
         const { data } = await axios.get(`/user/${id}.json`);
+        console.log("data in otherpeople: ", data);
         if (data.self) {
             this.props.history.push("/");
         } else {
@@ -26,6 +28,7 @@ export default class OtherProfile extends Component {
                         alt={`${this.state.first} ${this.state.last}`}
                         src={this.state.url}
                     />
+                    <FriendButton id={this.state.id} />
                 </div>
                 <div className="bio-container">
                     <h3>

@@ -225,6 +225,29 @@ app.get("/user/:id.json", async (req, res) => {
     }
 });
 
+app.get("/users/:name", async (req, res) => {
+    console.log("req.params: ", req.params);
+    if (req.params.name == "+") {
+        try {
+            const data = await db.getRecentUsers();
+            console.log("data in /users: ", data);
+            res.json(data.rows);
+        } catch (err) {
+            console.log(err);
+            res.json({ err: "User does not exits." });
+        }
+    } else {
+        try {
+            const data = await db.getMatchingUsers(req.params.name);
+            console.log("data in /users getMatchingUsers: ", data);
+            res.json(data.rows);
+        } catch (err) {
+            console.log(err);
+            res.json({ err: "User does not exits." });
+        }
+    }
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");

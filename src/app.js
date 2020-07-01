@@ -3,6 +3,7 @@ import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import OtherProfile from "./otherprofile";
+import FindPeople from "./findpeople";
 // import BioEditor from "./bioediter";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import axios from "./axios";
@@ -41,6 +42,9 @@ export default class App extends Component {
                         <nav className="logo">
                             <img src="./public/logo.png" />
                         </nav>
+                        <Link className="find-people" to="/findusers">
+                            Find People
+                        </Link>
                         <Link to="/">
                             <nav className="nav-pic">
                                 <ProfilePic
@@ -69,9 +73,20 @@ export default class App extends Component {
                         path="/user/:id"
                         render={(props) => (
                             <OtherProfile
+                                id={props.id}
                                 key={props.match.url}
                                 match={props.match}
                                 history={props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/findusers"
+                        render={() => (
+                            <FindPeople
+                                first={this.props.first}
+                                last={this.props.last}
+                                imageUrl={this.props.url}
                             />
                         )}
                     />
