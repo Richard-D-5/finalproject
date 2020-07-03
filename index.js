@@ -200,7 +200,7 @@ app.get("/user", (req, res) => {
     if (req.session.userId) {
         db.getUsersInfo(req.session.userId)
             .then((data) => {
-                console.log("data in /user: ", data);
+                // console.log("data in /user: ", data);
                 res.json(data.rows[0]);
             })
             .catch((err) => {
@@ -245,6 +245,37 @@ app.get("/users/:name", async (req, res) => {
             console.log(err);
             res.json({ err: "User does not exits." });
         }
+    }
+});
+
+app.get("/friendship-status/:id", async (req, res) => {
+    console.log("req.params.id in /friendship-status: ", req.params.id);
+    // if (req.params.id) {
+    try {
+        const data = await db.getFriendshipStatus(
+            req.params.id,
+            req.session.userId
+        );
+        console.log("data in friendship-status GET: ", data);
+        res.json(data.rows);
+    } catch (err) {
+        console.log(err);
+    }
+    // }
+});
+
+app.post("/make-friend-request/:id", async (req, res) => {
+    console.log("req.body in /make-friend-request POST: ", req.body);
+    console.log("req.params in /make-friend-request POST: ", req.params);
+    try {
+        const data = await db.makeFriendRequest(
+            req.session.userId,
+            req.params.id
+        );
+        console.log("data in /make-friend-request POST: ", data);
+        res.json(data.rows);
+    } catch (err) {
+        console.log("err in /make-friend-request POST: ", err);
     }
 });
 

@@ -97,3 +97,19 @@ module.exports.getMatchingUsers = (val) => {
 module.exports.getRecentUsers = () => {
     return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3`);
 };
+
+module.exports.getFriendshipStatus = (id, userId) => {
+    return db.query(
+        `SELECT * FROM friendships
+        WHERE (receiver_id = $1 AND sender_id = $2)
+        OR (receiver_id = $2 AND sender_id = $1);`,
+        [id, userId]
+    );
+};
+
+module.exports.makeFriendRequest = (sender_id, receiver_id) => {
+    return db.query(
+        `INSERT INTO friendships (sender_id, receiver_id) VALUES ($1, $2) RETURNING *`,
+        [sender_id, receiver_id]
+    );
+};
