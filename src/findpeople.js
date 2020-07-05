@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "./axios";
 
 export default function FindPeople() {
@@ -31,10 +32,12 @@ export default function FindPeople() {
                 return (
                     <div key={idx} className="find-container">
                         <div className="profile-pic">
-                            <img
-                                alt={`${elem.first} ${elem.last}`}
-                                src={elem.url}
-                            />
+                            <Link to={`/user/${elem.id}`}>
+                                <img
+                                    alt={`${elem.first} ${elem.last}`}
+                                    src={elem.url}
+                                />
+                            </Link>
                         </div>
                         <div className="bio-container">
                             <h4>

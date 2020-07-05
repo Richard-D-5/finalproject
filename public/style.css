@@ -10,10 +10,14 @@ header {
 }
 
 .logo {
+    position: absolute;
+    left: 20px;
+    top: 5px;
+}
+
+.logo img {
     width: 50px;
     height: 50px;
-    left: 20px;
-    top: 10px;
 }
 
 .nav-pic {
@@ -47,6 +51,11 @@ input {
     padding-top: 20px;
     display: flex;
     flex-direction: row;
+}
+
+.profile-container img {
+    width: 200px;
+    height: 200px;
 }
 
 .find-container {

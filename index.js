@@ -279,6 +279,36 @@ app.post("/make-friend-request/:id", async (req, res) => {
     }
 });
 
+app.post("/accept-friend-request/:id", async (req, res) => {
+    console.log("req.body in accept friends: ", req.body);
+    console.log("req.params in accept friends: ", req.params);
+    try {
+        const data = await db.acceptFriendRequest(
+            req.session.userId,
+            req.params.id
+        );
+        console.log("data in accept friends: ", data);
+        res.json({ data: true });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.post("/delete-friendship/:id", async (req, res) => {
+    console.log("req.body in accept friends: ", req.body);
+    console.log("req.params in accept friends: ", req.params);
+    try {
+        const data = await db.acceptFriendRequest(
+            req.session.userId,
+            req.params.id
+        );
+        console.log("data in accept friends: ", data);
+        res.json({ data: true });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");

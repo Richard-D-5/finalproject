@@ -113,3 +113,21 @@ module.exports.makeFriendRequest = (sender_id, receiver_id) => {
         [sender_id, receiver_id]
     );
 };
+
+module.exports.acceptFriendRequest = (sender_id, receiver_id) => {
+    return db.query(
+        `UPDATE friendships
+        SET accepted = true
+        WHERE (receiver_id = $1 AND sender_id = $2)`,
+        [sender_id, receiver_id]
+    );
+};
+
+module.exports.deleteFriendship = (sender_id, receiver_id) => {
+    return db.query(
+        `DELETE FROM friendships 
+        WHERE (receiver_id = $1 AND sender_id = $2)
+        OR (receiver_id = $2 AND sender_id = $1)`,
+        [sender_id, receiver_id]
+    );
+};

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Logo from "./logo";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
@@ -39,9 +40,9 @@ export default class App extends Component {
             <BrowserRouter>
                 <div>
                     <header>
-                        <nav className="logo">
-                            <img src="./public/logo.png" />
-                        </nav>
+                        <Link className="logo" to="/">
+                            <Logo />
+                        </Link>
                         <Link className="find-people" to="/findusers">
                             Find People
                         </Link>
