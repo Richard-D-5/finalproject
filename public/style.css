@@ -33,6 +33,18 @@ header {
 
 .find-people {
     position: absolute;
+    right: 190px;
+    top: 30px;
+}
+
+.chat {
+    position: absolute;
+    right: 150px;
+    top: 30px;
+}
+
+.friends {
+    position: absolute;
     right: 90px;
     top: 30px;
 }
@@ -77,6 +89,12 @@ input {
 .textarea {
     border: 1px black solid;
     border-radius: 10px;
+}
+
+.chat-messages-container {
+    height: 300px;
+    width: 80%;
+    overflow-y: scroll;
 }
 
 /* .upload-container {

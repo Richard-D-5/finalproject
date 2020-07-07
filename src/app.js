@@ -6,6 +6,8 @@ import Profile from "./profile";
 import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
 // import BioEditor from "./bioediter";
+import Friends from './friends';
+import Chat from "./chat";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import axios from "./axios";
 
@@ -45,6 +47,12 @@ export default class App extends Component {
                         </Link>
                         <Link className="find-people" to="/findusers">
                             Find People
+                        </Link>
+                        <Link className="chat" to="/chat">
+                            Chat
+                        </Link>
+                        <Link className="friends" to="/friends">
+                            Friends
                         </Link>
                         <Link to="/">
                             <nav className="nav-pic">
@@ -91,6 +99,8 @@ export default class App extends Component {
                             />
                         )}
                     />
+                    <Route path="/friends" component={Friends} />
+                    <Route path="/chat" component={Chat} />
                     {this.state.uploaderIsVisible && (
                         <Uploader methodInApp={this.methodInApp} />
                     )}

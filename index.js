@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 const db = require("./db");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc");
@@ -37,12 +39,22 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-app.use(
-    cookieSession({
-        secret: "I'm always happy",
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret: "I'm always happy",
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -309,6 +321,18 @@ app.post("/delete-friendship/:id", async (req, res) => {
     }
 });
 
+app.get("/friends-wannabes", async (req, res) => {
+    console.log("req.body in accept friends: ", req.body);
+    console.log("req.params in accept friends: ", req.params);
+    try {
+        const data = await db.friendsWannabes(req.session.userId);
+        console.log("data in /friends-wannabes GET: ", data);
+        res.json(data.rows);
+    } catch (err) {
+        console.log("err in /friends-wannabes GET: ", err);
+    }
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");
@@ -325,6 +349,32 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", function (socket) {
+    // all of our socket code will go inside here!!!
+    console.log(`socket id ${socket.id} is now connected`);
+
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+
+    // this is a good place to go get the last 10 chat messages
+    // we'll need to make a nex table for chats
+
+    // db.getLastTenMsgs().then(data => {
+    //     console.log(data.rows);
+    //     io.sockets.emit('chatMessages', data.rows);
+    // });
+
+    socket.on("chat message", (newMsg) => {
+        console.log("This message is coming from chat.js component", newMsg);
+        console.log("user woh sent newMsg is: ", userId);
+
+        io.sockets.emit("addChatMsg", newMsg);
+    });
 });
