@@ -57,7 +57,7 @@ export default function Friends() {
                 })}
             </div>
             <div className="wannabe-friends">
-                <p>Friends request</p>
+                <p>Requests</p>
                 {wannabeFriends.map((elem, idx) => {
                     return (
                         <div key={idx} className="friends-pic">

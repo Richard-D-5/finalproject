@@ -79,7 +79,12 @@ export default class BioEditer extends Component {
                             onChange={(e) => this.handleChange(e)}
                         ></textarea>
 
-                        <button onClick={(e) => this.saveBio(e)}>Save</button>
+                        <button
+                            className="bio-button"
+                            onClick={(e) => this.saveBio(e)}
+                        >
+                            Save
+                        </button>
                     </form>
                 </div>
             );
@@ -99,7 +104,12 @@ export default class BioEditer extends Component {
                         {this.props.first} {this.props.last}
                     </h3>
                     <p>{this.props.bio}</p>
-                    <button onClick={(e) => this.addBio(e)}>Edit</button>
+                    <button
+                        className="bio-button"
+                        onClick={(e) => this.addBio(e)}
+                    >
+                        Edit
+                    </button>
                 </div>
             );
         }

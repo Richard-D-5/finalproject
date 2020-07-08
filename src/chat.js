@@ -6,9 +6,6 @@ import { useSelector } from "react-redux";
 export default function Chat() {
     const elemRef = useRef();
     const chatMessages = useSelector((state) => state && state.msgs);
-    // const chatMessage = useSelector((state) => state && state.msg);
-    console.log("here ar my last 10 chat messages: ", chatMessages);
-    // console.log("my message: ", chatMessage);
 
     useEffect(() => {
         elemRef.current.scrollTop =
@@ -49,6 +46,8 @@ export default function Chat() {
                     })}
             </div>
             <textarea
+                rows="5"
+                cols="50"
                 placeholder="Add your message here"
                 onKeyDown={keyCheck}
             ></textarea>
