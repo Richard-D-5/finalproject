@@ -36,3 +36,17 @@ export async function unfriend(id) {
         console.log("err in actions: ", err);
     }
 }
+
+export function chatMessages(msgs) {
+    return {
+        type: "LAST_TEN_MESSAGES",
+        msgs,
+    };
+}
+
+export function chatMessage(msg) {
+    return {
+        type: "NEW_MESSAGE",
+        msg,
+    };
+}

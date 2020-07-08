@@ -143,3 +143,21 @@ module.exports.friendsWannabes = (id) => {
         [id]
     );
 };
+
+module.exports.getLastTenMsgs = () => {
+    return db.query(
+        `SELECT users.id, first, last, url, message, chat.sender_id
+        FROM chat
+        JOIN users
+        ON (sender_id = users.id)
+        ORDER BY chat.id DESC
+        LIMIT 10`
+    );
+};
+
+module.exports.addNewMessage = (message, sender_id) => {
+    return db.query(
+        `INSERT INTO chat (message, sender_id) VALUES ($1, $2) RETURNING *`,
+        [message, sender_id]
+    );
+};

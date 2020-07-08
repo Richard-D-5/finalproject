@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { socket } from "./socket";
 import { useSelector } from "react-redux";
 
 export default function Chat() {
     const elemRef = useRef();
-
-    const chatMessages = useSelector((state) => state && state.chatMessages);
+    const chatMessages = useSelector((state) => state && state.msgs);
     console.log("here ar my last 10 chat messages: ", chatMessages);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function Chat() {
         // scroll
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
-    }, []);
+    }, [chatMessages]);
 
     const keyCheck = (e) => {
         console.log("value: ", e.target.value);
@@ -26,17 +26,35 @@ export default function Chat() {
 
         if (e.key === "Enter") {
             e.preventDefault();
-            // console.log("our message: ", e.target.value);
             socket.emit("chat message", e.target.value);
             e.target.value = "";
         }
     };
 
     return (
-        <div>
+        <div className="chat-main-container">
             <p>Welcome to Chat</p>
             <div className="chat-messages-container" ref={elemRef}>
-                <p>chat message will go here</p>
+                {chatMessages &&
+                    chatMessages.map((message) => {
+                        return (
+                            <div className="message-container" key={message.id}>
+                                <div className="message-pic">
+                                    <img
+                                        className="profile-pic"
+                                        alt={`${message.first} ${message.last}`}
+                                        src={message.url}
+                                    />
+                                </div>
+                                <div className="message">
+                                    <p>
+                                        {message.first} {message.last}
+                                    </p>
+                                    <p>{message.message}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
             </div>
             <textarea
                 placeholder="Add your message here"

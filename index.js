@@ -322,14 +322,22 @@ app.post("/delete-friendship/:id", async (req, res) => {
 });
 
 app.get("/friends-wannabes", async (req, res) => {
-    console.log("req.body in accept friends: ", req.body);
-    console.log("req.params in accept friends: ", req.params);
     try {
         const data = await db.friendsWannabes(req.session.userId);
         console.log("data in /friends-wannabes GET: ", data);
         res.json(data.rows);
     } catch (err) {
         console.log("err in /friends-wannabes GET: ", err);
+    }
+});
+
+app.get("/get-messages", async (req, res) => {
+    try {
+        const data = await db.getLastTenMsgs(req.session.userId);
+        console.log("data in /get-messages GET: ", data);
+        res.json(data.rows);
+    } catch (err) {
+        console.log("err in /get-messages GET: ", err);
     }
 });
 
@@ -353,7 +361,7 @@ server.listen(8080, function () {
     console.log("I'm listening.");
 });
 
-io.on("connection", function (socket) {
+io.on("connection", async (socket) => {
     // all of our socket code will go inside here!!!
     console.log(`socket id ${socket.id} is now connected`);
 
@@ -365,16 +373,23 @@ io.on("connection", function (socket) {
 
     // this is a good place to go get the last 10 chat messages
     // we'll need to make a nex table for chats
+    try {
+        const data = await db.getLastTenMsgs();
+        console.log("data in io.on: ", data.rows);
+        io.sockets.emit("chatMessages", data.rows.reverse());
+    } catch (err) {
+        console.log("err in io.on: ", err);
+    }
 
-    // db.getLastTenMsgs().then(data => {
-    //     console.log(data.rows);
-    //     io.sockets.emit('chatMessages', data.rows);
-    // });
-
-    socket.on("chat message", (newMsg) => {
+    socket.on("chat message", async (newMsg) => {
         console.log("This message is coming from chat.js component", newMsg);
         console.log("user woh sent newMsg is: ", userId);
+        try {
+            await db.addNewMessage(newMsg, userId);
 
-        io.sockets.emit("addChatMsg", newMsg);
+            io.sockets.emit("addChatMsg", newMsg);
+        } catch (err) {
+            console.log("err in io.on: ", err);
+        }
     });
 });
