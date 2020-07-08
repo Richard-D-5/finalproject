@@ -7,6 +7,7 @@ export default class BioEditer extends Component {
         super(props);
         this.state = {
             bioIsVisible: false,
+            currentBio: this.props.bio,
         };
     }
 
@@ -23,7 +24,7 @@ export default class BioEditer extends Component {
     handleChange(e) {
         this.setState(
             {
-                [e.target.name]: e.target.value,
+                currentBio: e.target.value,
             },
             () => console.log("this.state: ", this.state)
         );
@@ -38,12 +39,15 @@ export default class BioEditer extends Component {
     }
 
     async saveBio(e) {
+        console.log("saving bio:", e);
         e.preventDefault();
         try {
             const { data } = await axios.post("/save", this.state);
             console.log("data in post save: ", data);
             this.props.setBio(data);
-            this.addBio();
+            this.setState({
+                bioIsVisible: !this.state.bioIsVisible,
+            });
         } catch (err) {
             console.log("err in post reset: ", err);
             this.setState({
@@ -65,6 +69,7 @@ export default class BioEditer extends Component {
                     <form>
                         <textarea
                             className="textarea"
+                            defaultValue={this.props.bio}
                             name="currentBio"
                             rows="5"
                             cols="50"
@@ -72,9 +77,7 @@ export default class BioEditer extends Component {
                             maxLength="255"
                             placeholder="Please enter you bio here"
                             onChange={(e) => this.handleChange(e)}
-                        >
-                            {this.props.bio}
-                        </textarea>
+                        ></textarea>
 
                         <button onClick={(e) => this.saveBio(e)}>Save</button>
                     </form>

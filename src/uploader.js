@@ -38,8 +38,6 @@ export default class Uploader extends Component {
     render() {
         return (
             <div className="upload-container">
-                <h2>This is my uploader component.</h2>
-
                 <form>
                     <input
                         type="file"

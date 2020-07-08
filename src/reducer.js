@@ -38,7 +38,7 @@ export default function reducer(state = {}, action) {
     if (action.type == "NEW_MESSAGE") {
         return (state = {
             ...state,
-            msg: action.msg,
+            msgs: [...state.msgs, action.msgs],
         });
     }
 

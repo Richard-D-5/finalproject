@@ -20,6 +20,7 @@ export default function Profile(props) {
                     last={props.last}
                     bio={props.bio}
                     changeBio={props.changeBio}
+                    setBio={props.setBio}
                 />
             </div>
         </div>

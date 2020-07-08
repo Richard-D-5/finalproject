@@ -44,9 +44,9 @@ export function chatMessages(msgs) {
     };
 }
 
-export function chatMessage(msg) {
+export function chatMessage(msgs) {
     return {
         type: "NEW_MESSAGE",
-        msg,
+        msgs,
     };
 }

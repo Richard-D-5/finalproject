@@ -161,3 +161,14 @@ module.exports.addNewMessage = (message, sender_id) => {
         [message, sender_id]
     );
 };
+
+module.exports.getNewMessage = (chat_id) => {
+    return db.query(
+        `SELECT users.id, users.first, users.last, users.url, chat.message, chat.sender_id
+        FROM chat
+        JOIN users
+        ON (sender_id = users.id)
+        WHERE chat.id = $1`,
+        [chat_id]
+    );
+};

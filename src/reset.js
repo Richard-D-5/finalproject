@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import { render } from "react-dom";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import Logo from "./logo";
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -135,7 +136,16 @@ class ResetPassword extends Component {
     }
 
     render() {
-        return <div>{this.getCurrentDisplay()}</div>;
+        return (
+            <div>
+                <header>
+                    <Logo />
+                </header>
+                <div className="reset-container">
+                    {this.getCurrentDisplay()}
+                </div>
+            </div>
+        );
     }
 }
 

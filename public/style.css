@@ -2,6 +2,8 @@
     box-sizing: border-box;
     margin: 0;
     background-color: white;
+    font-family: "Amatic SC", cursive;
+    font-size: 18px;
 }
 
 header {
@@ -11,7 +13,7 @@ header {
 
 .logo {
     position: absolute;
-    left: 20px;
+    left: 50px;
     top: 5px;
 }
 
@@ -29,6 +31,7 @@ header {
 .nav-pic img {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
 }
 
 .find-people {
@@ -56,6 +59,14 @@ header {
 
 input {
     background-color: white;
+}
+
+.upload-container {
+    padding-left: 50px;
+}
+
+.upload-container input {
+    margin: 5px;
 }
 
 .profile-container {
@@ -162,6 +173,79 @@ input {
 .message-pic img {
     width: 50px;
     height: 50px;
+}
+
+.reg-container {
+    position: absolute;
+    top: 150px;
+    right: 100px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    /* border: 2px black solid; */
+    border-radius: 25px;
+}
+
+.reg-container input {
+    margin: 10px;
+    border: none;
+    border-bottom: 1px black solid;
+    justify-items: center;
+}
+
+.reg-button {
+    font-size: 15px;
+    padding-bottom: 20px;
+}
+
+.login {
+    position: absolute;
+    right: 100px;
+    top: 30px;
+}
+
+.login-main-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    float: right;
+    top: 10px;
+    right: 100px;
+}
+
+.login-container input {
+    margin: 5px;
+    border: none;
+    border-bottom: 1px black solid;
+}
+
+.forget {
+    font-size: 15px;
+    float: right;
+}
+
+.reset-container {
+    position: absolute;
+    top: 150px;
+    right: 150px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    /* border: 2px black solid; */
+    border-radius: 25px;
+}
+
+.reset-container input {
+    margin: 5px;
 }
 
 /* .upload-container {

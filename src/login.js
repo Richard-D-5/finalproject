@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import Logo from "./logo";
 
 class Login extends Component {
     constructor(props) {
@@ -40,29 +41,43 @@ class Login extends Component {
     render() {
         return (
             <>
-                <h1>I am the login</h1>
-                {this.state.error && (
-                    <div>Opps..., something went wrong. Please try again.</div>
-                )}
-                <input
-                    className="inputField"
-                    name="email"
-                    placeholder="email"
-                    type="email"
-                    onChange={(e) => this.handleChange(e)}
-                    required
-                />
-                <input
-                    className="inputField"
-                    name="password"
-                    placeholder="password"
-                    type="password"
-                    onChange={(e) => this.handleChange(e)}
-                    required
-                />
-                <button onClick={() => this.submit()}>Log in</button>
-
-                <Link to="/reset-password">Forget your password?</Link>
+                <header>
+                    <Logo />
+                    <div className="login-main-container">
+                        <div className="login-container">
+                            {this.state.error && (
+                                <div>
+                                    Opps..., something went wrong. Please try
+                                    again.
+                                </div>
+                            )}
+                            <input
+                                className="inputField"
+                                name="email"
+                                placeholder="email"
+                                type="email"
+                                onChange={(e) => this.handleChange(e)}
+                                required
+                            />
+                            <input
+                                className="inputField"
+                                name="password"
+                                placeholder="password"
+                                type="password"
+                                onChange={(e) => this.handleChange(e)}
+                                required
+                            />
+                            <button onClick={() => this.submit()}>
+                                Log in
+                            </button>
+                        </div>
+                        <div>
+                            <Link to="/reset-password">
+                                <p className="forget">Forget your password?</p>
+                            </Link>
+                        </div>
+                    </div>
+                </header>
             </>
         );
     }

@@ -198,7 +198,6 @@ app.post("/save", (req, res) => {
                 console.log("update bio!!");
                 console.log("data in post /save: ", data);
                 res.json(data.rows[0].bio);
-                // res.json({ succes: true });
             })
             .catch((err) => {
                 console.log("err in post /save: ", err);
@@ -382,12 +381,16 @@ io.on("connection", async (socket) => {
     }
 
     socket.on("chat message", async (newMsg) => {
-        console.log("This message is coming from chat.js component", newMsg);
-        console.log("user woh sent newMsg is: ", userId);
+        // console.log("This message is coming from chat.js component", newMsg);
+        // console.log("user woh sent newMsg is: ", userId);
         try {
-            await db.addNewMessage(newMsg, userId);
+            const message = await db.addNewMessage(newMsg, userId);
 
-            io.sockets.emit("addChatMsg", newMsg);
+            console.log("new message: ", message);
+
+            const newMessage = await db.getNewMessage(message.rows[0].id);
+
+            io.sockets.emit("chatMessage", newMessage.rows[0]);
         } catch (err) {
             console.log("err in io.on: ", err);
         }
