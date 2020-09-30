@@ -18,10 +18,6 @@ export default function FindPeople() {
         setUsers(e.target.value);
     };
 
-    // const handleUserChange = (e) => {
-    //     setNewUsers(e.target.value);
-    // };
-
     return (
         <div className="findpeople-container">
             <h3>Find People</h3>

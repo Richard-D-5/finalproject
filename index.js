@@ -39,13 +39,6 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-// app.use(
-//     cookieSession({
-//         secret: "I'm always happy",
-//         maxAge: 1000 * 60 * 60 * 24 * 14,
-//     })
-// );
-
 const cookieSessionMiddleware = cookieSession({
     secret: `I'm always angry.`,
     maxAge: 1000 * 60 * 60 * 24 * 90,
