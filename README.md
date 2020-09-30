@@ -2,7 +2,7 @@
 
 ### Description
 
-This project is a social network SPA for nature lovers in Berlin. It is the first project I made using React.js, a framework that I love working with.
+This project is a social network SPA. It is the first project I made using React.js.
 
 Users can create an account and connect with other members directly by making friend connections or by chatting on the message board.
 
